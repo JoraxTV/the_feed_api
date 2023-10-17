@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\PublicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
-    order : ["datePublication" => "DESC"]
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(),
+        new Delete()
+    ],
+    order: ["datePublication" => "DESC"]
+
 )]
 class Publication
 {
