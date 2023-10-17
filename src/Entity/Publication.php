@@ -6,9 +6,13 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PublicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
-#[ApiResource]
+#[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    order : ["datePublication" => "DESC"]
+)]
 class Publication
 {
     #[ORM\Id]
@@ -17,10 +21,23 @@ class Publication
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 4,
+        max: 50,
+        minMessage: "Le message est trop court! (4 caractères minimum)",
+        maxMessage: "Le message est trop long! (50 caractères maximum)"
+    )]
     private ?string $message = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $datePublication = null;
+
+    #[ORM\PrePersist]
+    public function prePersistDatePublication() : void {
+        $this->datePublication = new \DateTime();
+    }
 
     public function getId(): ?int
     {
