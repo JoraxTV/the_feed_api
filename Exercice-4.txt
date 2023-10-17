@@ -1,0 +1,7 @@
+(GET) https://webinfo.iutmontp.univ-montp2.fr/~rodriguesj/the_feed_api/public/api/publications -- Récupère toutes les publications
+(DELETE) https://webinfo.iutmontp.univ-montp2.fr/~rodriguesj/the_feed_api/public/api/publications/5 -- Supprime la publication d'id 5
+(POST) https://webinfo.iutmontp.univ-montp2.fr/~rodriguesj/the_feed_api/public/api/publications -- Crée une publication
+ {
+     "message": "Hello There",
+     "datePublication": "2023-04-07T21:18:27.568Z"
+ }
