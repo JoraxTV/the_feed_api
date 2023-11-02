@@ -11,6 +11,8 @@ use App\Repository\PublicationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiProperty;
+
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -41,6 +43,12 @@ class Publication
         maxMessage: "Le message est trop long! (50 caractères maximum)"
     )]
     private ?string $message = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    // #[ApiProperty(iri: "your_IRI_here")]
+    private ?string $auteur; // Utilisez le type d'entité approprié
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $datePublication = null;
@@ -75,6 +83,18 @@ class Publication
     public function setDatePublication(\DateTimeInterface $datePublication): static
     {
         $this->datePublication = $datePublication;
+
+        return $this;
+    }
+
+    public function getAuteur(): ?string
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(string $auteur): static
+    {
+        $this->auteur = $auteur;
 
         return $this;
     }
